@@ -21,16 +21,23 @@ public class _02_TextUndoRedo implements KeyListener{
 	 * pressed, the top Character is popped  off the Stack and added back to
 	 * the JLabel.
 	 */
-	public static void main(String[] args){
 
-		JFrame f = new JFrame();
-		JPanel p = new JPanel();
-		JLabel l = new JLabel();
-		Stack<Character> history = new Stack<Character>();
+
+	JLabel l;
+	Stack<Character> history;
+	
+	public static void main(String[] args){
+		//Static v. Nonstatic problems, need to resolve, only l needs to be nonstatic no?
+		 JFrame f = new JFrame();
+		 JPanel p = new JPanel();
+		 l = new JLabel();
+		 //how do I resolve this.
+		 history = new Stack<Character>();
 		//Basically: The stack acts as a key saver. 
 		//The JLabel should contain all the stuff. The stack should keep all the old stuff typed.
 		f.add(p);
-		
+		f.setVisible(true);
+		//worst part of Java Swing, setting it to visible
 		
 	}
 
@@ -38,19 +45,35 @@ public class _02_TextUndoRedo implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() ==  KeyEvent.VK_BACK_SPACE) {
+			//delete
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			//undo WAIT NO I CANT DO SHIFT BRUH
+			//For now I'll use shift, I'll fix it soon.
+			//god that looks horrible
+			history.push(l.getText().charAt(l.getText().length()-1));
+			l.setText(l.getText().substring(0,l.getText().length()-1));
+			//THAT'S SCUFFED AS HELL
+			//l looks like 1 in this font
 			
 		}
+//		else if(e.getKeyCode() == KeyEvent.VK_ALPHANUMERIC) {
+//			//letters to be added to the text
+//		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		//Useless rn? idk
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		//or do I use this?????? i think I use this?
+		l.setText(l.getText()+e.getKeyChar());
+		//Haha now it keeps the old stuff AND adds the new character
+		//(e.getKeyChar());
 	}
 }
