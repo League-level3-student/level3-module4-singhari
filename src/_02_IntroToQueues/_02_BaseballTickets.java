@@ -35,7 +35,12 @@ import java.util.ArrayDeque;
 public class _02_BaseballTickets {
 
     public static int calculateWaitTime( ArrayDeque<Integer> ticketsQueue, int position ) {
+        int waitTime = -1;
+        for(int i = 0; i < ticketsQueue.size(); i++) {
+        	
+        }
         
-        return -1;
+        
+        return waitTime;
     }
 }
