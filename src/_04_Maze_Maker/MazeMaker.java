@@ -23,7 +23,7 @@ public class MazeMaker {
         //    This will be the starting point. Then select a random cell along
         //    the opposite wall and remove its exterior wall. This will be the
         //    finish line.
-        
+    //    Cell start = ;
         // 2. select a random cell in the maze to start 
         
         // 3. call the selectNextPath method with the randomly selected cell
