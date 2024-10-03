@@ -6,42 +6,56 @@ import java.util.*;
 import javax.swing.*;
 
 public class Hangman implements KeyListener{
-	JFrame f;
-	JPanel pan;
-	JLabel wordHolder;
+	JFrame f = new JFrame();
+	JPanel pan = new JPanel();
+	JLabel wordHolder = new JLabel();
 	String word;
 	String messageInJLabel="";
 	static int rounds;
 	int lengthOfWord;
 	int lives = 10;
+	Stack<String> wordList = new Stack<String>();
 	
 	public static void main(String[] args) {
-		//setUp();
-		Stack<String> wordList = new Stack<String>();
-		String s = JOptionPane.showInputDialog("Enter the number of words to guess (1-100");
+		Hangman h = new Hangman();
+		h.startGame();
+		
+		
+	}
+	public void startGame() {
+		String s = JOptionPane.showInputDialog("Enter the number of words to guess (1-100)");
 		//getting number of rounds
 		rounds = Integer.parseInt(s);
 		//checking if rounds is in bounds
-		if(!(rounds < 100 && rounds >= 1)) {
+		if((rounds >= 100 || rounds < 1)) {
 			rounds = 2;
 		}
 		for(int i = 0; i < rounds; i++) {
 			String str = Utilities.readRandomLineFromFile("dictionary.txt");
-			if(wordList.contains(str))
-			{
-				str = Utilities.readRandomLineFromFile("dictionary.txt");	
-			}
 			wordList.push(str);
 			
 		}
-		
+		for(int i = 0; i < rounds; i++) {
+			if(wordList.size() == 0) {
+				gameOver();
+			}
+			else {
+			word = wordList.pop();
+			setUp();
+			}
+		}
 	}
-	
 	public void setUp() {
+		
 		for(int i = 0; i < word.length(); i++) {
 			messageInJLabel+="_";
 		}
 		messageInJLabel+=" Lives: "+lives;
+		wordHolder.setText(messageInJLabel);
+		pan.add(wordHolder);
+		f.add(pan);
+		f.setVisible(true);
+		f.pack();
 	}
 	
 	public void gameOver() {
@@ -53,7 +67,7 @@ public class Hangman implements KeyListener{
 			message = "You won!";
 		}
 		//ask the user to play again
-		
+		JOptionPane.showMessageDialog(pan, message);
 		
 	}
 	
@@ -73,7 +87,27 @@ public class Hangman implements KeyListener{
 		}
 		if(!letterWasPresent) {
 			lives--;
-			wordHolder.setText(messageInJLabel.subSequence(0, lengthOfWord)+" Lives: "+lives);
+			if(lives == 0) {
+				gameOver();
+			}
+			else {
+				wordHolder.setText(messageInJLabel.subSequence(0, lengthOfWord)+" Lives: "+lives);
+			}
+		}
+		else {
+			char[] s = messageInJLabel.toCharArray();
+			for(int i = 0; i < word.length(); i++) {
+				
+				if(word.charAt(i) == e.getKeyChar()) {
+					s[i] = e.getKeyChar();
+				}
+			}
+			//messageInJLabel
+			for(int i = 0; i < s.length; i++) {
+				messageInJLabel+=s[i];
+			}
+			messageInJLabel = messageInJLabel.subSequence(0, lengthOfWord)+" Lives: "+lives;
+			wordHolder.setText(messageInJLabel);
 		}
 		
 	}
